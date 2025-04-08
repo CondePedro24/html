@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook OAuth Redirect</title>
+</head>
+<body>
+    <h1>Redirigiendo...</h1>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            // Aquí puedes manejar el código de autorización y pedir el token de acceso
+            console.log('Código de autorización:', code);
+        } else {
+            console.log('No se recibió el código de autorización.');
+        }
+    </script>
+</body>
+</html>
