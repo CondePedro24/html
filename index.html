@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook OAuth Redirect</title>
+    <title>Facebook OAuth Callback</title>
 </head>
 <body>
-    <h1>Redirigiendo...</h1>
+    <h1>Autenticación Exitosa</h1>
+    <p>El código de autorización ha sido recibido y procesado.</p>
+
     <script>
+        // Obtener el parámetro "code" de la URL
         const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        if (code) {
-            // Aquí puedes manejar el código de autorización y pedir el token de acceso
-            console.log('Código de autorización:', code);
+        const authorizationCode = urlParams.get('code');
+
+        if (authorizationCode) {
+            // Imprimir el código de autorización en la consola
+            console.log("Código de autorización recibido:", authorizationCode);
+
+            // Solicitar el token de acceso usando el código de autorización
+            const appId = '1137080514563210'; // Reemplaza con tu App ID
+            const appSecret = '360625db18a9d9cff0afd28a8c393bed'; // Reemplaza con tu App Secret
+            const redirectUri = 'https://condepedro24.github.io/html/'; // La URL de redirección configurada
+
+            // Hacer una solicitud GET a la API para obtener el token
+            fetch(`https://graph.facebook.com/v13.0/oauth/access_token?client_id=${appId}&redirect_uri=${redirectUri}&client_secret=${appSecret}&code=${authorizationCode}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.access_token) {
+                        // Mostrar el token de acceso
+                        console.log('Token de acceso:', data.access_token);
+                        // Aquí puedes hacer lo que necesites con el token, como almacenarlo o hacer más solicitudes
+                    } else {
+                        console.error('Error al obtener el token:', data.error.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                });
         } else {
-            console.log('No se recibió el código de autorización.');
+            console.error('No se recibió el código de autorización.');
         }
     </script>
 </body>
