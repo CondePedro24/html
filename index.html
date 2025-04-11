@@ -1,20 +1,55 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Facebook OAuth Redirect</title>
- </head>
- <body>
-     <h1>Redirigiendo...</h1>
-     <script>
-         const urlParams = new URLSearchParams(window.location.search);
-         const code = urlParams.get('code');
-         if (code) {
-             console.log('Código de autorización:', code);
-         } else {
-             console.log('No se recibió el código de autorización.');
-         }
-     </script>
- </body>
- </html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook OAuth Redirect</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background-color: #1877f2;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Redirigiendo...</h1>
+    <button id="copyButton">Copiar token de Autentificación</button>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            console.log('Código de autorización:', code);
+        } else {
+            console.log('No se recibió el código de autorización.');
+        }
+
+        document.getElementById('copyButton').addEventListener('click', () => {
+            if (code) {
+                navigator.clipboard.writeText(code).then(() => {
+                    alert('Token copiado al portapapeles');
+                }).catch(err => {
+                    alert('Error al copiar el token: ' + err);
+                });
+            } else {
+                alert('No se encontró el token en la URL');
+            }
+        });
+    </script>
+</body>
+</html>
